@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-us">
+   <head>
+		<meta charset="UTF-8">
+		<title>Psychic Game</title>
+		<link rel="stylesheet" href="assets/css/style.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery.js"></script>
+	</head>
+
+	<body>
+
+		<div class="jumbotron text-center">
+			<h1 class="display-3">Guess The Letter</h1>
+			<p>Use That ESP</p>
+			<p class="lead">
+			</p>
+		</div>
+
+		<div id = "wins">
+			<p>Wins: 0</p>
+		</div>
+		<div id = "Trys">
+			<p>Trys: 9</p>
+		</div>
+		<div id = "loss">
+			<p>Losses: 0</p>
+		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function() {
+				//WHAT ARE WE COUNTING
+				var rand = ["a","b","c","d","e","f","g","h","i","j","k","l",
+				"m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
+				var wins = 0;
+				var loss = 0;
+				var trys = 9;
+				var repeatedLetter = false;
+				var past;
+
+				function newWord(){//GET ME A NEW LETTER TO ESP
+					return (rand[Math.floor(Math.random() * rand.length)]);
+				}
+				var awnser = newWord();
+
+
+
+				$(document).onkeyup(function(event) {//LISTEN TO MY KEYS
+
+					for(var i = 0; i < past.length; i++){//test if we have pressed letter b4
+						if(event==past[i])
+							repeatedLetter = true;//will not uncheck untill line 70~
+					}
+
+					if(repeatedLetter==false){
+						if(event==awnser){//WIN
+							wins++;
+							$("#wins").text("Wins: "+wins);
+							trys = 9;
+							$("#trys").text("Trys: "+ trys);
+							awnser = newWord();
+							past = "";
+						}
+						else{//ONE FAIL
+							past[9-trys] = e;//add the letter to past guesses
+							trys -= 1;
+							$("#trys").text("Trys: "+ trys);
+						}
+
+						if(trys==0){//FAIL LIMIT REACHED
+							loss++;
+							$("#loss").text("Losses: "+loss);
+							trys = 9;
+							$("#trys").text("Trys: "+ trys);
+							awnser = newWord();
+							past = "";
+						}
+					}
+					else//end of cycle reset
+						repeatedLetter = false;
+						alert("You Have Guessed That Letter Already...")
+
+				});
+			});
+		</script>
+	</body>
+</html>
