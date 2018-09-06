@@ -35,8 +35,9 @@
 				var wins = 0;
 				var loss = 0;
 				var trys = 9;
+				var j = 0;
 				var repeatedLetter = false;
-				var past;
+				var past = [];
 
 				function newWord(){//GET ME A NEW LETTER TO ESP
 					return (rand[Math.floor(Math.random() * rand.length)]);
@@ -45,26 +46,31 @@
 
 
 
-				$(document).onkeyup(function(event) {//LISTEN TO MY KEYS
+				$(document).keyup(function(event) {//LISTEN TO MY KEYS
 
+							console.log(event);
 					for(var i = 0; i < past.length; i++){//test if we have pressed letter b4
 						if(event==past[i])
-							repeatedLetter = true;//will not uncheck untill line 70~
+							repeatedLetter = true;//will not uncheck untill line 90~
+							console.log(past);
 					}
 
+							console.log(awnser);
 					if(repeatedLetter==false){
-						if(event==awnser){//WIN
+						if(past[i]==awnser){//WIN
 							wins++;
 							$("#wins").text("Wins: "+wins);
 							trys = 9;
 							$("#trys").text("Trys: "+ trys);
 							awnser = newWord();
 							past = "";
+							j=0;
 						}
 						else{//ONE FAIL
-							past[9-trys] = e;//add the letter to past guesses
+							past[j] = event;//add the letter to past guesses
 							trys -= 1;
 							$("#trys").text("Trys: "+ trys);
+							j++;
 						}
 
 						if(trys==0){//FAIL LIMIT REACHED
@@ -74,12 +80,14 @@
 							$("#trys").text("Trys: "+ trys);
 							awnser = newWord();
 							past = "";
+							j=0;
 						}
 					}
-					else//end of cycle reset
+					else{//end of cycle reset
+						console.log("bad start");
 						repeatedLetter = false;
 						alert("You Have Guessed That Letter Already...")
-
+					}
 				});
 			});
 		</script>
